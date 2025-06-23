@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Row, Col, Typography, Button, Card, Tag, Rate, List, Input, message } from "antd";
+import { Row, Col, Typography, Button, Card, Tag, Rate, List, Input, message, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCommentsByMovie, addComment, getAverageRating } from "../../services/comment";
 import { useAuth } from "../../hooks/useAuth";
@@ -52,7 +53,7 @@ const MovieDetail = () => {
   };
 
   return (
-    <Card style={{ margin: "0 auto", maxWidth: 900 }}>
+    <Card style={{ margin: "0 auto", maxWidth: 1000 }}>
       <Row gutter={[32, 24]}>
         <Col xs={24} md={8}>
           <img
@@ -61,8 +62,8 @@ const MovieDetail = () => {
             style={{ width: "100%", borderRadius: 8, boxShadow: "0 2px 8px #ccc" }}
           />
           <div style={{ marginTop: 16, textAlign: "center" }}>
-            <Rate allowHalf disabled value={avgRating} />
-            <div style={{ fontWeight: 600, marginTop: 4 }}>
+            <Rate allowHalf disabled value={avgRating} style={{ fontSize: 24 }} />
+            <div style={{ fontWeight: 700, fontSize: 18, marginTop: 4, color: avgRating > 0 ? '#faad14' : '#888' }}>
               {avgRating > 0 ? `${avgRating.toFixed(1)} / 5.0` : "Chưa có đánh giá"}
             </div>
           </div>
@@ -130,6 +131,7 @@ const MovieDetail = () => {
               renderItem={item => (
                 <List.Item>
                   <List.Item.Meta
+                    avatar={<Avatar icon={<UserOutlined />} style={{ backgroundColor: '#87d068' }} />}
                     title={<span><b>{item.user}</b> <Rate value={item.rating} disabled style={{ fontSize: 14, marginLeft: 8 }} /></span>}
                     description={<span>{item.content} <span style={{ color: '#aaa', marginLeft: 8 }}>{item.createdAt}</span></span>}
                   />
