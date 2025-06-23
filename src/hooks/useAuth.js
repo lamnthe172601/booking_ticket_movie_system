@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 
-export function useAuth() {
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const data = localStorage.getItem("user");
     return data ? JSON.parse(data) : null;
@@ -16,5 +18,11 @@ export function useAuth() {
     localStorage.removeItem("user");
   };
 
-  return { user, login, logout };
-} 
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext); 
